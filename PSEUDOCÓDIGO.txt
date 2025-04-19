@@ -1,0 +1,58 @@
+1. Fuerza bruta
+
+procedure MaxConstVar(P):
+    return MaxConstVar_aux(P, 1, 1, 1, 0)
+
+procedure MaxConstVar_aux(P, i, curr_len, max_len, diff):
+    if i ≥ |P|:
+        return max(curr_len, max_len)
+    else if i == 1:
+        return MaxConstVar_aux(P, i+1, 2, max_len, P[1]-P[0])
+    else if P[i] - P[i-1] == diff:
+        return MaxConstVar_aux(P, i+1, curr_len+1, max_len, diff)
+    else:
+        return MaxConstVar_aux(P, i+1, 2, max(curr_len, max_len), P[i]-P[i-1])
+
+
+
+2. Memoizado
+procedure MaxConstVar(P):
+    M ← <0, ..., |P|><-∞>
+    return MaxConstVar_M(P, 1, P[1] - P[0], 2, M)
+
+procedure MaxConstVar_M(P, curr, diff, length, M):
+    if curr ≥ |P|:
+        return length
+    else if M[curr] ≠ -∞:
+        return M[curr]
+    else if P[curr] - P[curr - 1] = diff:
+        seguir ← MaxConstVar_M(P, curr + 1, diff, length + 1, M)
+        M[curr] ← max(length, seguir)
+    else:
+        reinicio ← MaxConstVar_M(P, curr, P[curr] - P[curr - 1], 2, M)
+        M[curr] ← max(length, reinicio)
+    return M[curr]
+
+
+3. Bottom up
+
+procedure MaxConstVar(P):
+    n ← |P|
+    M ← <0, ..., n>
+    for i ← 0 to n:
+        M[i] ← -∞
+
+    maxLen ← 1
+    len ← 2
+
+    for i ← 1 to n - 1:
+        diff ← P[i] - P[i - 1]
+        len ← 2
+        for j ← i + 1 to n - 1:
+            if P[j] - P[j - 1] = diff:
+                len ← len + 1
+                maxLen ← max(maxLen, len)
+            else:
+                break
+    return maxLen
+
