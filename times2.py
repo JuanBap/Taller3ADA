@@ -1,4 +1,4 @@
-# times.py
+# times2.py
 import time
 import random
 import csv
@@ -13,15 +13,15 @@ def medir_tiempo(algoritmo, P):
     return resultado, fin - inicio
 
 # Tamaños de entrada crecientes para pruebas
-# Crear 100 casos de prueba desde 9 hasta 900, espaciados uniformemente
-tamaños = [int(9 + i * (900 - 9) / 99) for i in range(100)]
+# Crear 100 casos de prueba desde 1 hasta 100, evenly spaced
+tamaños = [i for i in range(1, 101)]  # 1, 2, 3, ..., 100
 
 print(f"Midiendo tiempos de ejecución para {len(tamaños)} tamaños de entrada:")
 print("Tamaño | Recursivo | Memoizado | Bottom-Up")
 print("-" * 50)
 
 # Preparar archivo CSV
-with open('resultados_tiempos.csv', 'w', newline='') as csvfile:
+with open('resultados_tiempos_small.csv', 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(['Tamaño', 'Recursivo', 'Memoizado', 'Bottom-Up'])
     
@@ -29,7 +29,7 @@ with open('resultados_tiempos.csv', 'w', newline='') as csvfile:
         # Generar una secuencia aleatoria de precios
         P = [random.randint(1, 100) for _ in range(n)]
         
-        # Ejecutar todos los algoritmos para todos los tamaños, sin restricción
+        # Ejecutar todos los algoritmos para todos los tamaños
         resultado_rec, tiempo_rec = medir_tiempo(max_variacion_constante_rec, P)
             
         # Medir tiempos para los otros algoritmos
@@ -42,4 +42,4 @@ with open('resultados_tiempos.csv', 'w', newline='') as csvfile:
         # Guardar en CSV (sin el "s" del tiempo)
         csv_writer.writerow([n, tiempo_rec, tiempo_memo, tiempo_bu])
 
-print(f"\nResultados guardados en 'resultados_tiempos.csv' para {len(tamaños)} tamaños diferentes")
+print(f"\nResultados guardados en 'resultados_tiempos_small.csv' para {len(tamaños)} tamaños diferentes") 

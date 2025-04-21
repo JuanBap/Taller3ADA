@@ -1,0 +1,1 @@
+- cambiar los del bottom up para llenarse con ∞
